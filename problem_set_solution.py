@@ -343,6 +343,63 @@ class Solution:
 
 ################################################################################
 
+# 541. Reverse String II
+
+class Solution:
+    def reverseStr(self, s: str, k: int) -> str:
+        result = list(s)
+        for i in range(0, len(s), 2*k):
+            rev = s[i:i+k]
+            result[i:i+k] = rev[::-1]
+        return "".join(result)
+
+################################################################################
+
+# 796. Rotate String
+
+class Solution:
+    def rotateString(self, A: str, B: str) -> bool:
+        if len(A) != len(B):
+            return False
+        A2 = A+A
+        if B in A2:
+            return True
+        return False
+
+################################################################################
+
+# 844. Backspace String Compare
+
+class Solution:
+    def backspaceCompare(self, S: str, T: str) -> bool:
+        i = 0
+        stack1 = []
+        stack2 = []
+        
+        while i < len(S):
+            if S[i] == "#":
+                if stack1:
+                    stack1.pop()
+                i += 1
+            else:
+                stack1.append(S[i])
+                i += 1
+        i = 0        
+        while i < len(T):
+            if T[i] == "#":
+                if stack2:
+                    stack2.pop()
+                i += 1
+            else:
+                stack2.append(T[i])
+                i += 1
+            
+        if stack1 == stack2:
+            return True
+        return False
+
+################################################################################
+
 # 859. Buddy Strings
 
 class Solution:

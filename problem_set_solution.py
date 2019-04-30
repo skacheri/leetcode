@@ -343,6 +343,168 @@ class Solution:
 
 ################################################################################
 
+# 69. Sqrt (x)
+
+class Solution:
+    def mySqrt(self, x: int) -> int:
+        start = 0
+        end = x
+        while start <= end:
+            mid = (start + end) // 2
+            if mid * mid == x:
+                return mid
+            elif mid * mid < x:
+                start = mid + 1
+            else:
+                end = mid -1
+        if end * end < x:
+            return end
+        else:
+            return start
+
+################################################################################
+
+# 70. Climbing Stairs
+
+class Solution(object):
+    def __init__(self):
+        self.dic = {1:1, 2:2}
+        
+    def climbStairs(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        if n not in self.dic:
+            self.dic[n] = self.climbStairs(n-1) + self.climbStairs(n-2)
+        return self.dic[n]
+
+################################################################################
+
+# 83. Remove Duplicates from Sorted List
+
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
+
+class Solution:
+    def deleteDuplicates(self, head: ListNode) -> ListNode:
+        if head == None:
+            return None
+        current = head
+        while current.next != None:
+            if current.val == current.next.val:
+                current.next = current.next.next
+            else:
+                current = current.next
+                
+        return head
+
+################################################################################
+
+# 88. Merge Sorted Array
+
+class Solution:
+    def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:
+        """
+        Do not return anything, modify nums1 in-place instead.
+        """
+        i, j, k = m-1, n-1, (m+n)-1
+        while j > -1 and i > -1:
+            if nums1[i] <= nums2[j]:
+                nums1[k] = nums2[j]
+                j -= 1
+                k -= 1
+            else:
+                nums1[k] = nums1[i]
+                i -= 1
+                k -= 1
+        if i < 0:
+            while j > -1:
+                nums1[k] = nums2[j]
+                j -= 1
+                k -= 1
+
+################################################################################
+
+# 100. Same Tree
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def isSameTree(self, p: TreeNode, q: TreeNode) -> bool:
+        if not p and not q:
+            return True
+        if (not p and q) or (not q and p):
+            return False
+        if p != None and q != None:
+            if p.val == q.val and self.isSameTree(p.right,q.right) and self.isSameTree(p.left,q.left):
+                return True
+        return False
+
+################################################################################
+
+# 101. Symmetric Tree
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def isSymmetric(self, root: TreeNode) -> bool:
+        return self.isMirror(root, root)
+    
+    def isMirror(self, t1, t2):
+        if (t1 and not t2) or (t2 and not t1):
+            return False
+        elif not t1 and not t2:
+            return True
+        else:
+            return self.isMirror(t1.left,t2.right) and self.isMirror(t1.right,t2.left) and t1.val == t2.val
+
+################################################################################
+
+# 102. Binary Tree Level Order Traversal
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def levelOrder(self, root: TreeNode) -> List[List[int]]:
+        queue = []
+        output = []
+        if not root: # first take care of edge case if they hand you an empty tree
+            return []
+        queue.append(root)
+        while len(queue) > 0:
+            level = []
+            for i in range(len(queue)):
+                seeing = queue.pop(0)
+                level.append(seeing.val)
+                if seeing.left:
+                    queue.append(seeing.left)
+                if seeing.right:
+                    queue.append(seeing.right)
+            output.append(level)
+        return output
+                
+
+################################################################################
+
 # 541. Reverse String II
 
 class Solution:
@@ -365,6 +527,25 @@ class Solution:
         if B in A2:
             return True
         return False
+
+################################################################################
+
+# 806. Number of Lines To Write String
+
+class Solution:
+    def numberOfLines(self, widths: List[int], S: str) -> List[int]:
+        dct = {}
+        for char in range(26):
+            dct[chr(char+97)] = widths[char]
+        summ = 0
+        line = 0
+        for char in S:
+            if summ + dct[char] <= 100:
+                summ += dct[char]
+            else:
+                line += 1
+                summ = dct[char]
+        return [line+1, summ]
 
 ################################################################################
 

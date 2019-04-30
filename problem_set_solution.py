@@ -505,6 +505,94 @@ class Solution:
 
 ################################################################################
 
+# 104. Maximum Depth of Binary Tree
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def maxDepth(self, root: TreeNode) -> int:
+        if root is None:
+            return 0
+        else:
+            max_depth_left = self.maxDepth(root.left)
+            max_depth_right = self.maxDepth(root.right)
+        return max(max_depth_left, max_depth_right) +1
+
+################################################################################
+
+# 107. Binary Tree Level Order Traversal II
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def levelOrderBottom(self, root: TreeNode) -> List[List[int]]:
+        queue = []
+        output = []
+        queue.append(root)
+        if not root:
+            return []
+        while len(queue) > 0:
+            level = []
+            for i in range(len(queue)):
+                seeing = queue.pop(0)
+                level.append(seeing.val)
+                if seeing.left:
+                    queue.append(seeing.left)
+                if seeing.right:
+                    queue.append(seeing.right)
+            output.append(level)
+        
+        return output[::-1]
+
+################################################################################
+
+# 111. Minimum Depth of Binary Tree
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def minDepth(self, root: TreeNode) -> int:
+        if root == None:
+            return 0
+        if root.left == None and root.right != None:
+            return self.minDepth(root.right) + 1
+        if root.right == None and root.left != None:
+            return self.minDepth(root.left) + 1
+        else:
+            depth_left = self.minDepth(root.left)
+            depth_right = self.minDepth(root.right) 
+            return min(depth_left, depth_right) + 1
+
+################################################################################
+
+# 125. 
+
+################################################################################
+
+
+################################################################################
+
+################################################################################
+
+################################################################################
+
+################################################################################
+
 # 541. Reverse String II
 
 class Solution:
